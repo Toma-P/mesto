@@ -1,0 +1,12 @@
+.header__link {
+  text-decoration: none;
+  display: block;
+  max-width: 142px;
+}
+
+@media screen and (max-width: 520px) {
+  .header__link {
+     margin-left: 28px;
+      max-width: 104px;
+  }
+}

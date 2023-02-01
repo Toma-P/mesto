@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="page">
+  <header class="header">
+    <a class="header__link" href=""><img class="header__logo" src="./images/header-logo-white.svg" alt="Логотип Место"></a>
+  </header>
+  <main>
+    <section class="profile">
+      <img class="profile__avatar" src="./images/profile-Cousteau.jpg" alt="Жак-Ив Кусто">
+      <div class="profile__info">
+        <h1 class="profile__info-title">Жак-Ив Кусто</h1>
+        <button class="profile__info-button"></button>
+        <p class="profile__info-subtitle">Исследователь океана</p>
+      </div>
+      <button class="profile__add-button"></button>
+    </section>
+    <section class="cards">
+      <ul class="cards__grid">
+        <li class="card">
+          <img class="card__image" src="./images/card-teriberka.jpg" alt="Вид на заснеженный водопад в Териберке">
+          <h2 class="card__title">Териберка</h2>
+          <button class="card__like-button"></button>
+        </li>
+        <li class="card">
+          <img class="card__image" src="./images/card-kaliningrad.jpg" alt="Часы на стене Кафедрального Собора в Калиниграде">
+          <h2 class="card__title">Калининград</h2>
+          <button class="card__like-button"></button>
+        </li>
+        <li class="card">
+          <img class="card__image" src="./images/card-svetlogorsk1.jpg" alt="Чайки на берегу Балтийского моря в Светлогорске">
+          <h2 class="card__title">Светлогорск</h2>
+          <button class="card__like-button"></button>
+        </li>
+        <li class="card">
+          <img class="card__image" src="./images/card-merjanovo.jpg" alt="Вид на маяк в Мержаново">
+          <h2 class="card__title">Мержаново</h2>
+          <button class="card__like-button"></button>
+        </li>
+        <li class="card">
+          <img class="card__image" src="./images/card-arkhiz.jpg" alt="Вид на храм в Нижнем Архызе">
+          <h2 class="card__title">Архыз</h2>
+          <button class="card__like-button"></button>
+        </li>
+        <li class="card">
+          <img class="card__image" src="./images/card-polyana.jpg" alt="Панорама гор в Красной Поляне летом">
+          <h2 class="card__title">Красная Поляна</h2>
+          <button class="card__like-button"></button>
+        </li>
+      </ul>
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__copyright">© 2023 Mesto Russia</p>
+  </footer>
+  <section class="popup">
+    <div class="popup__container">
+      <button class="popup__close-button"></button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form class="popup__form">
+        <input type="text" class="popup__form-item" name="username">
+        <input type="text" class="popup__form-item" name="about">
+        <button type="submit" class="popup__form-submit">Сохранить</button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
