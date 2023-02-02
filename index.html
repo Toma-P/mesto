@@ -15,42 +15,42 @@
       <img class="profile__avatar" src="./images/profile-Cousteau.jpg" alt="Жак-Ив Кусто">
       <div class="profile__info">
         <h1 class="profile__info-title">Жак-Ив Кусто</h1>
-        <button class="profile__info-button"></button>
+        <button type="button" aria-label="Редактировать данные" class="profile__info-button"></button>
         <p class="profile__info-subtitle">Исследователь океана</p>
       </div>
-      <button class="profile__add-button"></button>
+      <button type="button" aria-label="Добавить новую фотографию" class="profile__add-button"></button>
     </section>
     <section class="cards">
       <ul class="cards__grid">
         <li class="card">
           <img class="card__image" src="./images/card-teriberka.jpg" alt="Вид на заснеженный водопад в Териберке">
           <h2 class="card__title">Териберка</h2>
-          <button class="card__like-button"></button>
+          <button type="button" aria-label="Нравится" class="card__like-button"></button>
         </li>
         <li class="card">
           <img class="card__image" src="./images/card-kaliningrad.jpg" alt="Часы на стене Кафедрального Собора в Калиниграде">
           <h2 class="card__title">Калининград</h2>
-          <button class="card__like-button"></button>
+          <button type="button" aria-label="Нравится" class="card__like-button"></button>
         </li>
         <li class="card">
           <img class="card__image" src="./images/card-svetlogorsk1.jpg" alt="Чайки на берегу Балтийского моря в Светлогорске">
           <h2 class="card__title">Светлогорск</h2>
-          <button class="card__like-button"></button>
+          <button type="button" aria-label="Нравится" class="card__like-button"></button>
         </li>
         <li class="card">
           <img class="card__image" src="./images/card-merjanovo.jpg" alt="Вид на маяк в Мержаново">
           <h2 class="card__title">Мержаново</h2>
-          <button class="card__like-button"></button>
+          <button type="button" aria-label="Нравится" class="card__like-button"></button>
         </li>
         <li class="card">
           <img class="card__image" src="./images/card-arkhiz.jpg" alt="Вид на храм в Нижнем Архызе">
           <h2 class="card__title">Архыз</h2>
-          <button class="card__like-button"></button>
+          <button type="button" aria-label="Нравится" class="card__like-button"></button>
         </li>
         <li class="card">
           <img class="card__image" src="./images/card-polyana.jpg" alt="Панорама гор в Красной Поляне летом">
           <h2 class="card__title">Красная Поляна</h2>
-          <button class="card__like-button"></button>
+          <button type="button" aria-label="Нравится" class="card__like-button"></button>
         </li>
       </ul>
     </section>
@@ -60,9 +60,9 @@
   </footer>
   <section class="popup">
     <div class="popup__container">
-      <button class="popup__close-button"></button>
+      <button type="reset" aria-label="Закрыть" class="popup__close-button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form">
+      <form class="popup__form" name="editForm">
         <input type="text" class="popup__form-item popup__form-item_type_username" name="username" value="" placeholder="Имя пользователя">
         <input type="text" class="popup__form-item popup__form-item_type_about" name="about" value="" placeholder="Немного о себе">
         <button type="submit" class="popup__form-submit">Сохранить</button>
