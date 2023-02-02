@@ -34,7 +34,7 @@
     text-align: center;
     column-gap: 0;
     row-gap: 0;
-    grid-template-columns: fit-content(254px) min-content;
+    grid-template-columns: fit-content(254px) 30px;
     align-items: center;
     justify-content: center;
   }

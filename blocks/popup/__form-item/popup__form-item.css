@@ -2,7 +2,7 @@
   max-width: 358px;
   width: 100%;
   min-height: 27px;
-  padding: 13px 0 0;
+  padding: 0 0 13px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   box-sizing: border-box;
@@ -17,6 +17,24 @@
   margin-top: 0;
 }
 
+.popup__form-item::-webkit-input-placeholder {
+  color:rgba(0, 0, 0, .3);
+}
+.popup__form-item::-moz-placeholder {
+  color:rgba(0, 0, 0, .3);
+}
+.popup__form-item::-ms-input-placeholder {
+  color:rgba(0, 0, 0, .3);
+}
+.popup__form-item::placeholder {
+  color:rgba(0, 0, 0, .3);
+} 
+
+.popup__form-item:focus {
+  border: none;
+  outline-offset: 5px;
+  outline-color: rgba(0, 0, 0, .5);
+}
 @media screen and (max-width: 520px) {
   .popup__form-item {
     max-width: 238px;
