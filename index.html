@@ -22,43 +22,21 @@
     </section>
     <section class="cards">
       <ul class="cards__grid">
-        <li class="card">
-          <img class="card__image" src="./images/card-teriberka.jpg" alt="Вид на заснеженный водопад в Териберке">
-          <h2 class="card__title">Териберка</h2>
-          <button type="button" aria-label="Нравится" class="card__like-button"></button>
-        </li>
-        <li class="card">
-          <img class="card__image" src="./images/card-kaliningrad.jpg" alt="Часы на стене Кафедрального Собора в Калиниграде">
-          <h2 class="card__title">Калининград</h2>
-          <button type="button" aria-label="Нравится" class="card__like-button"></button>
-        </li>
-        <li class="card">
-          <img class="card__image" src="./images/card-svetlogorsk1.jpg" alt="Чайки на берегу Балтийского моря в Светлогорске">
-          <h2 class="card__title">Светлогорск</h2>
-          <button type="button" aria-label="Нравится" class="card__like-button"></button>
-        </li>
-        <li class="card">
-          <img class="card__image" src="./images/card-merjanovo.jpg" alt="Вид на маяк в Мержаново">
-          <h2 class="card__title">Мержаново</h2>
-          <button type="button" aria-label="Нравится" class="card__like-button"></button>
-        </li>
-        <li class="card">
-          <img class="card__image" src="./images/card-arkhiz.jpg" alt="Вид на храм в Нижнем Архызе">
-          <h2 class="card__title">Архыз</h2>
-          <button type="button" aria-label="Нравится" class="card__like-button"></button>
-        </li>
-        <li class="card">
-          <img class="card__image" src="./images/card-polyana.jpg" alt="Панорама гор в Красной Поляне летом">
-          <h2 class="card__title">Красная Поляна</h2>
-          <button type="button" aria-label="Нравится" class="card__like-button"></button>
-        </li>
       </ul>
     </section>
+    <template class="template__card">
+      <li class="card">
+        <img class="card__image">
+        <h2 class="card__title"></h2>
+        <button type="button" aria-label="Нравится" class="card__like-button"></button>
+        <button type="button" aria-label="Удалить" class="card__delete-button"></button>
+      </li>
+    </template>
   </main>
   <footer class="footer">
     <p class="footer__copyright">© 2023 Mesto Russia</p>
   </footer>
-  <section class="popup">
+  <section class="popup popup_type_edit-profile">
     <div class="popup__container">
       <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -68,6 +46,24 @@
         <button type="submit" class="popup__form-submit">Сохранить</button>
       </form>
     </div>
+  </section>
+  <section class="popup popup_type_add-card">
+    <div class="popup__container">
+      <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+      <h2 class="popup__title">Новое место</h2>
+      <form class="popup__form" name="addForm">
+        <input type="text" class="popup__form-item popup__form-item_type_name" name="name" value="" placeholder="Название">
+        <input type="text" class="popup__form-item popup__form-item_type_link" name="link" value="" placeholder="Ссылка на картинку">
+        <button type="submit" class="popup__form-submit">Создать</button>
+      </form>
+    </div>
+  </section>
+  <section class="popup popup_type_open-image">
+    <figure class="popup__image-container">
+      <button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+      <img class="popup__image">
+      <figcaption class="popup__caption"></figcaption>
+    </figure>
   </section>
   <script src="./scripts/index.js"></script>
 </body>
