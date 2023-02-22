@@ -6,44 +6,24 @@ const popupImage = document.querySelector('.popup_type_open-image');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const profileForm = popupProfile.querySelector('.popup__form');
 const addCardForm = popupAddCard.querySelector('.popup__form');
-let username = profileForm.querySelector('.popup__form-item_type_username');
-let about = profileForm.querySelector('.popup__form-item_type_about');
-let profileName = document.querySelector('.profile__info-title');
-let profileAbout = document.querySelector('.profile__info-subtitle');
-let cardName = addCardForm.querySelector('.popup__form-item_type_name');
-let cardLink = addCardForm.querySelector('.popup__form-item_type_link');
-let largeImage = popupImage.querySelector('.popup__image');
-let imageCaption = popupImage.querySelector('.popup__caption');
-
-
-const initialCars = [
-  {
-    name: 'Териберка',
-    link: './images/card-teriberka.jpg'
-  },
-  {
-    name: 'Калининград',
-    link: './images/card-kaliningrad.jpg'
-  },
-  {
-    name: 'Светлогорск',
-    link: './images/card-svetlogorsk1.jpg'
-  },
-  {
-    name: 'Мержаново',
-    link: './images/card-merjanovo.jpg'
-  },
-  {
-    name: 'Архыз',
-    link: './images/card-arkhiz.jpg'
-  },
-  {
-    name: 'Красная Поляна',
-    link: './images/card-polyana.jpg'
-  }
-];
+const username = profileForm.querySelector('.popup__form-item_type_username');
+const about = profileForm.querySelector('.popup__form-item_type_about');
+const profileName = document.querySelector('.profile__info-title');
+const profileAbout = document.querySelector('.profile__info-subtitle');
+const cardName = addCardForm.querySelector('.popup__form-item_type_name');
+const cardLink = addCardForm.querySelector('.popup__form-item_type_link');
+const largeImage = popupImage.querySelector('.popup__image');
+const imageCaption = popupImage.querySelector('.popup__caption');
 const cardsList = document.querySelector('.cards__grid');
 const template = document.querySelector('.template__card');
+
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
+
 const getNewCard = (item) => {
   const newCard = template.content.cloneNode(true);
   const newCardTitle = newCard.querySelector('.card__title');
@@ -61,8 +41,9 @@ const getNewCard = (item) => {
   });
   newCardImage.addEventListener('click', () => {
     largeImage.src = item.link;
+    largeImage.alt = item.name;
     imageCaption.textContent = item.name;
-    popupImage.classList.add('popup_opened');
+    openPopup(popupImage);
   });
   return newCard;
 }
@@ -75,24 +56,19 @@ initialCars.forEach((item) => {
   addCard(cardsList, item);
 })
 
-
-function toggleOpenPopup(popup) {
-  popup.classList.toggle('popup_opened');
-}
-
 function handleEditButtonClick(popup) {
-  toggleOpenPopup(popup);
+  openPopup(popup);
   username.value = profileName.textContent;
   about.value = profileAbout.textContent;
 }
-
 
 function handleEditProfile(event, popup) {
   event.preventDefault();
   profileName.textContent = username.value;
   profileAbout.textContent = about.value;
-  toggleOpenPopup(popup);
+  closePopup(popup);
 }
+
 function handleAddCard(event, popup) {
   event.preventDefault();
   const newGridItem = {
@@ -100,15 +76,14 @@ function handleAddCard(event, popup) {
     link: cardLink.value
   }
   addCard(cardsList, newGridItem);
-  toggleOpenPopup(popup);
+  closePopup(popup);
 }
 
 closeButtons.forEach((item) => {
-  item.addEventListener('click', () => toggleOpenPopup(item.closest('.popup')));
+  item.addEventListener('click', () => closePopup(item.closest('.popup')));
 })
 
 editButton.addEventListener('click', () => handleEditButtonClick(popupProfile));
 profileForm.addEventListener('submit', (event) => handleEditProfile(event, popupProfile));
-addButton.addEventListener('click', () => toggleOpenPopup(popupAddCard));
+addButton.addEventListener('click', () => openPopup(popupAddCard));
 addCardForm.addEventListener('submit', (event) => handleAddCard(event, popupAddCard));
-
