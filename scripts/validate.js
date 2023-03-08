@@ -1,3 +1,8 @@
+const removeValidationErrors = (popup) => {
+  const setInputs = Array.from(popup.querySelectorAll(options.inputSelector));
+  setInputs.forEach(input => hideError(input, options));
+}
+
 const hideError = (input, options) => {
   const errorField = input.closest(options.formFieldSelector);
   const inputError = errorField.querySelector(options.errorSpanSelector);
@@ -28,20 +33,20 @@ const hasInvalidInput = (inputList) => {
   })
 }
   
-const disabledButton = (buttonElement, inactiveButtonClass) => {
+const disabledButton = (buttonElement, options) => {
   buttonElement.disabled = 'true';
-  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.classList.add(options.inactiveButtonClass);
 }
-const enabledButton = (buttonElement, inactiveButtonClass) => {
+const enabledButton = (buttonElement, options) => {
   buttonElement.disabled = '';
-  buttonElement.classList.remove(inactiveButtonClass);
+  buttonElement.classList.remove(options.inactiveButtonClass);
 }
   
 const toggleButtonState = (inputList, buttonElement, options) => {
   if (hasInvalidInput(inputList)) {
-    disabledButton(buttonElement, options.inactiveButtonClass);
+    disabledButton(buttonElement, options);
   } else {
-    enabledButton(buttonElement, options.inactiveButtonClass);
+    enabledButton(buttonElement, options);
   }
 };
 

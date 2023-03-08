@@ -30,27 +30,27 @@ const options = {
   errorActiveClass: 'popup__form-error_active'
 }; 
 
-const handleEscapeClick = (event, popup) => {
+function handleEscapeClick(event) {
   if(event.key === "Escape") {
-    closePopup(popup);
+    
+    closePopup(document.querySelector('.popup_opened'));
+    
   }
 }
 
-const resetForm = (formElement) => {
+const resetForm = (popup) => {
+  const formElement = popup.querySelector('.popup__form');
   formElement.reset();
 }
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', (event) => handleEscapeClick(event, popup));
+  document.addEventListener('keydown', handleEscapeClick);
 }
+
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  const form = popup.querySelector('.popup__form');
-  resetForm(form);
-  const setInputs = Array.from(popup.querySelectorAll(options.inputSelector));
-  setInputs.forEach(input => hideError(input, options));
   document.removeEventListener('keydown', handleEscapeClick);
 }
 
@@ -88,6 +88,8 @@ initialCards.forEach((item) => {
 
 function handleEditButtonClick(popup) {
   openPopup(popup);
+  removeValidationErrors(popup);
+  resetForm(popup);
   username.value = profileName.textContent;
   about.value = profileAbout.textContent;
 }
@@ -98,7 +100,12 @@ function handleEditProfile(event, popup) {
   profileAbout.textContent = about.value;
   closePopup(popup);
 }
-
+function handleAddButtonClick(popup, submitButton, options) {
+  openPopup(popup);
+  removeValidationErrors(popup);
+  disabledButton(submitButton, options);
+  resetForm(popup);
+}
 function handleAddCard(event, popup) {
   event.preventDefault();
   const newGridItem = {
@@ -127,8 +134,5 @@ enableValidation(options);
 
 editButton.addEventListener('click', () => handleEditButtonClick(popupProfile));
 profileForm.addEventListener('submit', (event) => handleEditProfile(event, popupProfile));
-addButton.addEventListener('click', () => {
-  openPopup(popupAddCard);
-  disabledButton(submitButton);
-})
+addButton.addEventListener('click', () => handleAddButtonClick(popupAddCard, submitButton, options));
 addCardForm.addEventListener('submit', (event) => handleAddCard(event, popupAddCard));
