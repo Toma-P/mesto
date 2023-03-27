@@ -1,3 +1,5 @@
+import Card from './card.js';
+import FormValidator from './formValidator.js';
 const editButton = document.querySelector('.profile__info-button');
 const addButton = document.querySelector('.profile__add-button');
 const popupProfile = document.querySelector('.popup_type_edit-profile');
@@ -17,7 +19,6 @@ const cardLink = addCardForm.querySelector('.popup__form-item_type_link');
 const largeImage = popupImage.querySelector('.popup__image');
 const imageCaption = popupImage.querySelector('.popup__caption');
 const cardsList = document.querySelector('.cards__grid');
-const template = document.querySelector('.template__card');
 
 const options = {
   formSelector: '.popup__form',
@@ -30,11 +31,31 @@ const options = {
   errorActiveClass: 'popup__form-error_active'
 }; 
 
+const disabledButton = (buttonElement, inactiveButtonClass) => {
+  buttonElement.disabled = 'true';
+  buttonElement.classList.add(inactiveButtonClass);
+}
+const enabledButton = (buttonElement, inactiveButtonClass) => {
+  buttonElement.disabled = '';
+  buttonElement.classList.remove(inactiveButtonClass);
+}
+
+const validateProfileForm = new FormValidator(options, profileForm, disabledButton, enabledButton);
+validateProfileForm.enableValidation();
+
+const validateAddCardForm = new FormValidator(options, addCardForm, disabledButton, enabledButton);
+validateAddCardForm.enableValidation();
+
+const openLargeImage = (item) => {
+  largeImage.src = item.link;
+  largeImage.alt = item.name;
+  imageCaption.textContent = item.name;
+  openPopup(popupImage);
+}
+
 function handleEscapeClick(event) {
   if(event.key === "Escape") {
-    
     closePopup(document.querySelector('.popup_opened'));
-    
   }
 }
 
@@ -48,47 +69,19 @@ function openPopup(popup) {
   document.addEventListener('keydown', handleEscapeClick);
 }
 
-
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', handleEscapeClick);
 }
 
-const getNewCard = (item) => {
-  const newCard = template.content.cloneNode(true);
-  const newCardTitle = newCard.querySelector('.card__title');
-  const newCardImage = newCard.querySelector('.card__image');
-  const likeButton = newCard.querySelector('.card__like-button');
-  const deleteButton = newCard.querySelector('.card__delete-button'); 
-  newCardTitle.textContent = item.name;
-  newCardImage.src = item.link;
-  newCardImage.alt = item.name;
-  likeButton.addEventListener('click', () => {
-    likeButton.classList.toggle('card__like-button_active');
-  });
-  deleteButton.addEventListener('click', () => {
-    deleteButton.closest('.card').remove();
-  });
-  newCardImage.addEventListener('click', () => {
-    largeImage.src = item.link;
-    largeImage.alt = item.name;
-    imageCaption.textContent = item.name;
-    openPopup(popupImage);
-  });
-  return newCard;
-}
-
-const addCard = (list, item) => {
-  list.prepend(getNewCard(item));
-}
-
 initialCards.forEach((item) => {
-  addCard(cardsList, item);
+  const newCard = new Card(item, cardsList, openLargeImage);
+  newCard.render();
 })
 
 function handleEditButtonClick(popup) {
   openPopup(popup);
-  removeValidationErrors(popup);
+  validateProfileForm.resetErrorInputs()
   resetForm(popup);
   username.value = profileName.textContent;
   about.value = profileAbout.textContent;
@@ -100,19 +93,22 @@ function handleEditProfile(event, popup) {
   profileAbout.textContent = about.value;
   closePopup(popup);
 }
+
 function handleAddButtonClick(popup, submitButton, options) {
   openPopup(popup);
-  removeValidationErrors(popup);
-  disabledButton(submitButton, options);
+  validateAddCardForm.resetErrorInputs();
+  disabledButton(submitButton, options.inactiveButtonClass);
   resetForm(popup);
 }
+
 function handleAddCard(event, popup) {
   event.preventDefault();
   const newGridItem = {
     name: cardName.value,
     link: cardLink.value
   }
-  addCard(cardsList, newGridItem);
+  const addCardElement = new Card(newGridItem, cardsList, openPopup);
+  addCardElement.render();
   closePopup(popup);
 }
 
@@ -129,8 +125,6 @@ closeButtons.forEach((item) => {
 setPopups.forEach((popup) => {
   popup.addEventListener('click', (event) => handleOverlayClick(event, popup));
 });
-
-enableValidation(options);
 
 editButton.addEventListener('click', () => handleEditButtonClick(popupProfile));
 profileForm.addEventListener('submit', (event) => handleEditProfile(event, popupProfile));
