@@ -9,7 +9,7 @@ const closeButtons = document.querySelectorAll('.popup__close-button');
 const setPopups = document.querySelectorAll('.popup');
 const profileForm = popupProfile.querySelector('.popup__form');
 const addCardForm = popupAddCard.querySelector('.popup__form');
-const submitButton = addCardForm.querySelector('.popup__form-submit');
+//const submitButton = addCardForm.querySelector('.popup__form-submit');
 const username = profileForm.querySelector('.popup__form-item_type_username');
 const about = profileForm.querySelector('.popup__form-item_type_about');
 const profileName = document.querySelector('.profile__info-title');
@@ -31,20 +31,15 @@ const options = {
   errorActiveClass: 'popup__form-error_active'
 }; 
 
-const disabledButton = (buttonElement, inactiveButtonClass) => {
-  buttonElement.disabled = 'true';
-  buttonElement.classList.add(inactiveButtonClass);
-}
-const enabledButton = (buttonElement, inactiveButtonClass) => {
-  buttonElement.disabled = '';
-  buttonElement.classList.remove(inactiveButtonClass);
-}
 
-const validateProfileForm = new FormValidator(options, profileForm, disabledButton, enabledButton);
+
+const validateProfileForm = new FormValidator(options, profileForm);
 validateProfileForm.enableValidation();
+validateProfileForm.resetValidation();
 
-const validateAddCardForm = new FormValidator(options, addCardForm, disabledButton, enabledButton);
+const validateAddCardForm = new FormValidator(options, addCardForm);
 validateAddCardForm.enableValidation();
+validateAddCardForm.resetValidation();
 
 const openLargeImage = (item) => {
   largeImage.src = item.link;
@@ -75,16 +70,17 @@ function closePopup(popup) {
 }
 
 initialCards.forEach((item) => {
-  const newCard = new Card(item, cardsList, openLargeImage);
-  newCard.render();
+  const newCard = new Card('.template__card', item, openLargeImage);
+  cardsList.append(newCard.render());
 })
 
 function handleEditButtonClick(popup) {
   openPopup(popup);
-  validateProfileForm.resetErrorInputs()
   resetForm(popup);
+  validateProfileForm.resetValidation()
   username.value = profileName.textContent;
   about.value = profileAbout.textContent;
+  
 }
 
 function handleEditProfile(event, popup) {
@@ -94,11 +90,10 @@ function handleEditProfile(event, popup) {
   closePopup(popup);
 }
 
-function handleAddButtonClick(popup, submitButton, options) {
+function handleAddButtonClick(popup) {
   openPopup(popup);
-  validateAddCardForm.resetErrorInputs();
-  disabledButton(submitButton, options.inactiveButtonClass);
   resetForm(popup);
+  validateAddCardForm.resetValidation();
 }
 
 function handleAddCard(event, popup) {
@@ -107,8 +102,8 @@ function handleAddCard(event, popup) {
     name: cardName.value,
     link: cardLink.value
   }
-  const addCardElement = new Card(newGridItem, cardsList, openPopup);
-  addCardElement.render();
+  const addCardElement = new Card('.template__card', newGridItem, openLargeImage);
+  cardsList.prepend(addCardElement.render());
   closePopup(popup);
 }
 
@@ -128,5 +123,5 @@ setPopups.forEach((popup) => {
 
 editButton.addEventListener('click', () => handleEditButtonClick(popupProfile));
 profileForm.addEventListener('submit', (event) => handleEditProfile(event, popupProfile));
-addButton.addEventListener('click', () => handleAddButtonClick(popupAddCard, submitButton, options));
+addButton.addEventListener('click', () => handleAddButtonClick(popupAddCard));
 addCardForm.addEventListener('submit', (event) => handleAddCard(event, popupAddCard));

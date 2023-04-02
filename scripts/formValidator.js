@@ -1,5 +1,5 @@
 class FormValidator {
-  constructor(options, formElement, disabledButton, enabledButton) {
+  constructor(options, formElement) {
     this._formSelector = options._formSelector;
     this._inputSelector = options.inputSelector;
     this._submitButtonSelector = options.submitButtonSelector;
@@ -9,8 +9,8 @@ class FormValidator {
     this._inputErrorClass = options.inputErrorClass;
     this._errorActiveClass = options.errorActiveClass;
     this._formElement = formElement;
-    this._disabledButton = disabledButton;
-    this._enabledButton = enabledButton;
+    this._submitButton = formElement.querySelector(this._submitButtonSelector);
+    this._inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
   }
     
   _hideError = (input) => {
@@ -37,39 +37,46 @@ class FormValidator {
     }
   }
   
-  _hasInvalidInput = (inputList) => {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput = () => {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   }
   
-  _toggleButtonState(inputList, buttonElement) {
-    if (this._hasInvalidInput(inputList)) {
-      this._disabledButton(buttonElement, this._inactiveButtonClass);
+  _disableButton = () => {
+    this._submitButton.disabled = 'true';
+    this._submitButton.classList.add(this._inactiveButtonClass);
+  }
+  _enableButton = () => {
+    this._submitButton.disabled = '';
+    this._submitButton.classList.remove(this._inactiveButtonClass);
+  }
+
+  _toggleButtonState() {
+    if (this._hasInvalidInput()) {
+      this._disableButton();
     } else {
-      this._enabledButton(buttonElement, this._inactiveButtonClass);
+      this._enableButton();
     }
   }
     
-  _formListeners(formElement) {
-    const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-    const buttonElement = formElement.querySelector(this._submitButtonSelector);  
-    inputList.forEach(inputElement => {
+  _formListeners() {
+      
+    this._inputList.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       })
     })
   }
     
-  resetErrorInputs = () => {
-    const setInputs = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    setInputs.forEach(input => this._hideError(input));
+  resetValidation = () => {
+    this._toggleButtonState();
+    this._inputList.forEach(input => this._hideError(input));
   }
   
   enableValidation = () => {
-    this._formListeners(this._formElement);
-    this.resetErrorInputs(this._formElement); 
+    this._formListeners(); 
   }
 }
 
