@@ -69,9 +69,15 @@ function closePopup(popup) {
   document.removeEventListener('keydown', handleEscapeClick);
 }
 
-initialCards.forEach((item) => {
+function createNewCard(item) {
   const newCard = new Card('.template__card', item, openLargeImage);
-  cardsList.append(newCard.render());
+  const cardElement = newCard.render();
+  return cardElement;
+}
+
+initialCards.forEach((item) => {
+  const card = createNewCard(item);
+  cardsList.append(card);
 })
 
 function handleEditButtonClick(popup) {
@@ -102,8 +108,8 @@ function handleAddCard(event, popup) {
     name: cardName.value,
     link: cardLink.value
   }
-  const addCardElement = new Card('.template__card', newGridItem, openLargeImage);
-  cardsList.prepend(addCardElement.render());
+  const card = createNewCard(newGridItem);
+  cardsList.prepend(card);
   closePopup(popup);
 }
 
