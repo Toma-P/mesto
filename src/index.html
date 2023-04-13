@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="page">
   <header class="header">
-    <a class="header__link" href=""><img class="header__logo" src="./images/header-logo-white.svg" alt="Логотип Место"></a>
+    <a class="header__link" href=""><img class="header__logo" src="<%=require('./images/header-logo-white.svg')%>" alt="Логотип Место"></a>
   </header>
   <main>
     <section class="profile">
-      <img class="profile__avatar" src="./images/profile-Cousteau.jpg" alt="Жак-Ив Кусто">
+      <img class="profile__avatar" src="<%=require('./images/profile-Cousteau.jpg')%>" alt="Жак-Ив Кусто">
       <div class="profile__info">
         <h1 class="profile__info-title">Жак-Ив Кусто</h1>
         <button type="button" aria-label="Редактировать данные" class="profile__info-button"></button>

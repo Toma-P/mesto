@@ -1,9 +1,11 @@
+import './../pages/index.css';
 import Section from './Section.js';
 import Card from './card.js';
 import FormValidator from './formValidator.js';
 import PopupWithForm from './popupWithForm.js';
 import PopupWithImage from './popupWithImage.js';
 import UserInfo from './userInfo.js';
+import initialCards from './initialCards.js';
 
 const editButton = document.querySelector('.profile__info-button');
 const addButton = document.querySelector('.profile__add-button');
