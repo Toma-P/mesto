@@ -1,24 +1,14 @@
+import Section from './Section.js';
 import Card from './card.js';
 import FormValidator from './formValidator.js';
+import PopupWithForm from './popupWithForm.js';
+import PopupWithImage from './popupWithImage.js';
+import UserInfo from './userInfo.js';
+
 const editButton = document.querySelector('.profile__info-button');
 const addButton = document.querySelector('.profile__add-button');
-const popupProfile = document.querySelector('.popup_type_edit-profile');
-const popupAddCard = document.querySelector('.popup_type_add-card');
-const popupImage = document.querySelector('.popup_type_open-image');
-const closeButtons = document.querySelectorAll('.popup__close-button');
-const setPopups = document.querySelectorAll('.popup');
-const profileForm = popupProfile.querySelector('.popup__form');
-const addCardForm = popupAddCard.querySelector('.popup__form');
-//const submitButton = addCardForm.querySelector('.popup__form-submit');
-const username = profileForm.querySelector('.popup__form-item_type_username');
-const about = profileForm.querySelector('.popup__form-item_type_about');
-const profileName = document.querySelector('.profile__info-title');
-const profileAbout = document.querySelector('.profile__info-subtitle');
-const cardName = addCardForm.querySelector('.popup__form-item_type_name');
-const cardLink = addCardForm.querySelector('.popup__form-item_type_link');
-const largeImage = popupImage.querySelector('.popup__image');
-const imageCaption = popupImage.querySelector('.popup__caption');
-const cardsList = document.querySelector('.cards__grid');
+const profileForm = document.querySelector('.popup_type_edit-profile').querySelector('.popup__form');
+const addCardForm = document.querySelector('.popup_type_add-card').querySelector('.popup__form');
 
 const options = {
   formSelector: '.popup__form',
@@ -31,8 +21,6 @@ const options = {
   errorActiveClass: 'popup__form-error_active'
 }; 
 
-
-
 const validateProfileForm = new FormValidator(options, profileForm);
 validateProfileForm.enableValidation();
 validateProfileForm.resetValidation();
@@ -41,93 +29,57 @@ const validateAddCardForm = new FormValidator(options, addCardForm);
 validateAddCardForm.enableValidation();
 validateAddCardForm.resetValidation();
 
-const openLargeImage = (item) => {
-  largeImage.src = item.link;
-  largeImage.alt = item.name;
-  imageCaption.textContent = item.name;
-  openPopup(popupImage);
-}
+const userInfo = new UserInfo({titleSelector: '.profile__info-title', subtitleSelector: '.profile__info-subtitle'});
 
-function handleEscapeClick(event) {
-  if(event.key === "Escape") {
-    closePopup(document.querySelector('.popup_opened'));
+const popupProfile = new PopupWithForm({popupSelector: '.popup_type_edit-profile', 
+callback: (data) => {
+  userInfo.setUserInfo(data);
+  popupProfile.close();
   }
+});
+
+popupProfile.setEventListeners();
+
+function handleEditButtonClick() {
+ popupProfile.setInputValueList(userInfo.getUserInfo())
+ popupProfile.open();
+ validateProfileForm.resetValidation();
 }
 
-const resetForm = (popup) => {
-  const formElement = popup.querySelector('.popup__form');
-  formElement.reset();
+function handleCardClick(item) {
+  const largeImagePopup = new PopupWithImage('.popup_type_open-image', item)
+  largeImagePopup.open();
+  largeImagePopup.setEventListeners();
 }
 
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', handleEscapeClick);
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', handleEscapeClick);
-}
+const cardItems = new Section({items: initialCards, renderer: (item) => {
+  const card = createNewCard(item);
+  cardItems.addItem(card);
+  }
+}, '.cards__grid');
+cardItems.renderCard();
 
 function createNewCard(item) {
-  const newCard = new Card('.template__card', item, openLargeImage);
+  const newCard = new Card('.template__card', item, () => handleCardClick(item));
   const cardElement = newCard.render();
   return cardElement;
 }
 
-initialCards.forEach((item) => {
-  const card = createNewCard(item);
-  cardsList.append(card);
-})
+const popupCard = new PopupWithForm({popupSelector: '.popup_type_add-card', 
+callback: (data) => {
+  const cardElement = new Section({items: [data], 
+    renderer: (item) => {
+    const card = createNewCard(item);
+    cardElement.addItem(card);
+  }}, '.cards__grid');
+  cardElement.renderCard();
+}});
+popupCard.setEventListeners();
 
-function handleEditButtonClick(popup) {
-  openPopup(popup);
-  resetForm(popup);
-  validateProfileForm.resetValidation()
-  username.value = profileName.textContent;
-  about.value = profileAbout.textContent;
-  
-}
-
-function handleEditProfile(event, popup) {
-  event.preventDefault();
-  profileName.textContent = username.value;
-  profileAbout.textContent = about.value;
-  closePopup(popup);
-}
-
-function handleAddButtonClick(popup) {
-  openPopup(popup);
-  resetForm(popup);
+function handleAddButtonClick() {
+  popupCard.open();
   validateAddCardForm.resetValidation();
 }
 
-function handleAddCard(event, popup) {
-  event.preventDefault();
-  const newGridItem = {
-    name: cardName.value,
-    link: cardLink.value
-  }
-  const card = createNewCard(newGridItem);
-  cardsList.prepend(card);
-  closePopup(popup);
-}
-
-function handleOverlayClick(event, popup) { 
-  if(event.target === event.currentTarget) { 
-    closePopup(popup);
-  } 
-} 
-
-closeButtons.forEach((item) => {
-  item.addEventListener('click', () => closePopup(item.closest('.popup')));
-});
-
-setPopups.forEach((popup) => {
-  popup.addEventListener('click', (event) => handleOverlayClick(event, popup));
-});
-
-editButton.addEventListener('click', () => handleEditButtonClick(popupProfile));
-profileForm.addEventListener('submit', (event) => handleEditProfile(event, popupProfile));
-addButton.addEventListener('click', () => handleAddButtonClick(popupAddCard));
-addCardForm.addEventListener('submit', (event) => handleAddCard(event, popupAddCard));
+editButton.addEventListener('click', () => handleEditButtonClick());
+addButton.addEventListener('click', () => handleAddButtonClick());

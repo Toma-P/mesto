@@ -1,12 +1,10 @@
-class Card {
- 
-    constructor(templateSelector, data, openPopupImage) {
+export default class Card {
+    constructor(templateSelector, data, func) {
       this._template = document.querySelector(templateSelector).content;
       this._name = data.name;
       this._alt = data.name;
       this._link = data.link;
-     
-      this._openPopupImage = openPopupImage;
+      this._openPopupImage = func;
     }
 
     _getCardElement() {
@@ -29,7 +27,7 @@ class Card {
    }
    
    _handleImageClick() {
-      this._openPopupImage({name: this._name, link: this._link});
+      this._openPopupImage();
    }
   
     render = () => {
@@ -44,4 +42,3 @@ class Card {
       return this._cardElement;
     }
   }
-  export default Card;
