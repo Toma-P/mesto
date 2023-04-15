@@ -1,14 +1,19 @@
 export default class Card {
     constructor(templateSelector, data, func) {
-      this._template = document.querySelector(templateSelector).content;
+      this._template = templateSelector
       this._name = data.name;
       this._alt = data.name;
       this._link = data.link;
       this._openPopupImage = func;
+      this._cardElement;
     }
 
     _getCardElement() {
-      this._cardTemplate = this._template.cloneNode(true);
+      this._cardTemplate = document
+      .querySelector(this._template)
+      .content
+      .querySelector('.card')
+      .cloneNode(true);
       return this._cardTemplate;
     }
   
@@ -23,14 +28,15 @@ export default class Card {
     }
 
     _handleDeleteButtonClick() {
-      this._deleteButton.closest('.card').remove();
+      console.log(this._cardElement);
+      this._cardElement.remove();
    }
    
    _handleImageClick() {
       this._openPopupImage();
    }
   
-    render = () => {
+    render() {
       this._cardElement = this._getCardElement();
       this._likeButton = this._cardElement.querySelector('.card__like-button');
       this._deleteButton = this._cardElement.querySelector('.card__delete-button');
@@ -39,6 +45,7 @@ export default class Card {
       this._cardImage.src = this._link;
       this._cardImage.alt = this._alt;
       this._setEventListeners();
+      console.log(this._cardElement);
       return this._cardElement;
     }
   }

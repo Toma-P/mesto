@@ -1,11 +1,10 @@
-import './../pages/index.css';
-import Section from './Section.js';
-import Card from './card.js';
-import FormValidator from './formValidator.js';
-import PopupWithForm from './popupWithForm.js';
-import PopupWithImage from './popupWithImage.js';
-import UserInfo from './userInfo.js';
-import initialCards from './initialCards.js';
+import Section from '../components/Section.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import UserInfo from '../components/UserInfo.js';
+import initialCards from '../components/initialCards.js';
 
 const editButton = document.querySelector('.profile__info-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -42,6 +41,9 @@ callback: (data) => {
 
 popupProfile.setEventListeners();
 
+const largeImagePopup = new PopupWithImage('.popup_type_open-image');
+largeImagePopup.setEventListeners();
+
 function handleEditButtonClick() {
  popupProfile.setInputValueList(userInfo.getUserInfo())
  popupProfile.open();
@@ -49,9 +51,7 @@ function handleEditButtonClick() {
 }
 
 function handleCardClick(item) {
-  const largeImagePopup = new PopupWithImage('.popup_type_open-image', item)
-  largeImagePopup.open();
-  largeImagePopup.setEventListeners();
+  largeImagePopup.open(item);
 }
 
 const cardItems = new Section({items: initialCards, renderer: (item) => {
@@ -69,12 +69,7 @@ function createNewCard(item) {
 
 const popupCard = new PopupWithForm({popupSelector: '.popup_type_add-card', 
 callback: (data) => {
-  const cardElement = new Section({items: [data], 
-    renderer: (item) => {
-    const card = createNewCard(item);
-    cardElement.addItem(card);
-  }}, '.cards__grid');
-  cardElement.renderCard();
+ cardItems.renderNewCard(data);  
 }});
 popupCard.setEventListeners();
 
