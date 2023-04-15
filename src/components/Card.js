@@ -28,7 +28,6 @@ export default class Card {
     }
 
     _handleDeleteButtonClick() {
-      console.log(this._cardElement);
       this._cardElement.remove();
    }
    
