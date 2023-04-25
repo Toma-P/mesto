@@ -43,7 +43,7 @@ export default class Card {
     }
 
     _isLikedCard() {
-      return this._likes.find((userLike) => userLike._id === this._userId);
+      return this._likeButton.classList.contains('card__like-button_active');
     }
 
     _isMyCard() {
@@ -73,7 +73,7 @@ export default class Card {
       if(!this._isMyCard()) {
         this._deleteButton.classList.add('card__delete-button_disabled');
       }
-      if(this._isLikedCard()) {
+      if(this._likes.some((user) => user._id === this._userId)) {
         this.toggleLikeIcon()
       }
       this._likeCount = this._cardElement.querySelector('.card__like-count');

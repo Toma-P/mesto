@@ -13,8 +13,8 @@ export default class UserInfo {
     this._profileName.textContent = data.name;
     this._profileAbout.textContent = data.about;
     this._userId = data._id;
-    //return this._userId;
   }
+  
   setUserAvatar(link) {
     this._profileAvatar.src = link;
   }
